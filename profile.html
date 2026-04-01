@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile - PDP University</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #f8fafc;
+            --secondary-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --primary-accent: #3b82f6;
+            --border-color: #e2e8f0;
+            --header-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .top-header {
+            background-color: var(--header-bg);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--primary-accent);
+            letter-spacing: -0.05em;
+        }
+
+        .back-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #f1f5f9;
+            color: var(--text-primary);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #e2e8f0;
+        }
+
+        /* Profile Banner Overlay */
+        .profile-banner {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            position: relative;
+        }
+
+        /* Layout Container */
+        .profile-container {
+            max-width: 1400px;
+            margin: -80px auto 3rem auto;
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        /* Cards Base */
+        .card {
+            background-color: var(--secondary-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Left Panel - Bio */
+        .bio-card {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-avatar-large {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 6px solid #ffffff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            object-fit: cover;
+            background-color: #e2e8f0;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-role {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .profile-quick-contact {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quick-contact-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .quick-contact-btn:hover {
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+            transform: translateY(-2px);
+        }
+
+        .profile-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            width: 100%;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            margin-top: 1rem;
+        }
+
+        .profile-info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            width: 100%;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #94a3b8;
+            letter-spacing: 0.05em;
+        }
+
+        .info-value {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .status-active::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #22c55e;
+        }
+
+        /* Right Panel */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 5rem;
+        }
+
+        .id-academic-row {
+            display: flex;
+            gap: 2rem;
+            align-items: stretch;
+        }
+
+        /* 3D Rotating ID Card styling (HORIZONTAL 3:2 Ratio) */
+        .id-card-wrapper {
+            perspective: 1200px;
+            width: 450px;
+            height: 300px;
+            /* 3:2 Ratio strictly maintained */
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .id-card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .id-card-wrapper:hover .id-card-inner {
+            transform: rotateY(180deg) scale(1.02);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+        }
+
+        .id-card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .id-card-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* Ensures photo is not clipped */
+            background-color: white;
+        }
+
+        .id-card-back {
+            transform: rotateY(180deg);
+        }
+
+        .id-hint {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        /* Academic Stats container */
+        .stats-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: var(--secondary-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        .finance-summary-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+
+        .finance-card {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .finance-card-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .finance-card-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .finance-card-value.due {
+            color: #ef4444;
+        }
+
+        /* Finance Table Card */
+        .finance-section-card {
+            padding: 2.5rem;
+        }
+
+        .finance-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .finance-table th {
+            background-color: #f1f5f9;
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .finance-table td {
+            padding: 1.2rem 1.25rem;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .finance-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .finance-table tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        .payment-status {
+            padding: 0.35rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .payment-paid {
+            background: #dcfce7;
+            color: #166534;
+        }
+    </style>
+
+    <style>
+        /* Payment Modal Styles */
+        .payment-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .payment-modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .payment-modal {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .payment-modal-overlay.active .payment-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .pm-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+
+        .pm-close:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .pm-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .pm-subtitle {
+            font-size: 0.95rem;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .pm-amount-box {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .pm-amount-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .pm-amount-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ef4444;
+            letter-spacing: -1px;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .payment-method-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.25rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .payment-method-btn:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            transform: translateY(-2px);
+        }
+
+        .payment-method-btn img {
+            height: 28px;
+            object-fit: contain;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header class="top-header">
+        <div class="header-left">
+            <div class="logo">PDPU <span style="font-weight: 400; color: #64748b;">Profiles</span></div>
+        </div>
+        <div>
+            <a href="dashboard.html" class="back-btn">
+                &larr; Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <div class="profile-banner"></div>
+
+    <div class="profile-container">
+        <!-- Left Sidebar: Bio -->
+        <div class="card bio-card">
+            <img src="student.jpg" alt="Student Avatar" class="profile-avatar-large"
+                onerror="this.src=''; this.style.backgroundColor='#e2e8f0';" />
+
+            <div class="profile-name">SARDOR TOSHNIYOZOV</div>
+            <div class="profile-role">Student</div>
+
+            <div class="profile-quick-contact">
+                <button class="quick-contact-btn" title="Call">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                        </path>
+                    </svg>
+                </button>
+                <button class="quick-contact-btn" title="Email">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="profile-section-title">Personal Information</div>
+            <div class="profile-info-grid">
+                <div class="info-item">
+                    <span class="info-label">Status</span>
+                    <span class="status-badge status-active">Active</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">ID Number</span>
+                    <span class="info-value">230311</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Grantee</span>
+                    <span class="info-value" style="color: #166534; font-weight: 600;">✓ Granted</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Gender</span>
+                    <span class="info-value">MALE</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Date of Birth</span>
+                    <span class="info-value">11.02.2005</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Group ID</span>
+                    <span class="info-value" style="font-weight: 700; color: var(--primary-accent);">22-307</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Specification</span>
+                    <span class="info-value">Business Analytics & Change Management</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Passport ID</span>
+                    <span class="info-value">AD0128937</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Nationality</span>
+                    <span class="info-value">Uzbekistani</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Address</span>
+                    <span class="info-value" style="font-size: 0.85rem; line-height: 1.4;">Tashkent, Yunusabad dist.,
+                        Navoi Str. 12A</span>
+                </div>
+            </div>
+
+            <div class="profile-section-title">Contacts</div>
+            <div class="profile-info-grid">
+                <div class="info-item">
+                    <span class="info-label">Phone Number</span>
+                    <span class="info-value">+998 90 600 56 05</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">University Email</span>
+                    <span class="info-value"
+                        style="font-size: 0.85rem; word-break: break-all;">230311@studentdummyemail.pdp.university</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Main Content Area -->
+        <div class="main-content">
+
+            <!-- Top Section: 3D ID Card & Academic Stats -->
+            <div class="id-academic-row">
+                <!-- 3D Rotating ID Card (HORIZONTAL) -->
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div class="id-card-wrapper">
+                        <div class="id-card-inner">
+                            <div class="id-card-face id-card-front">
+                                <img src="front.png" alt="ID Card Front"
+                                    onerror="this.src=''; this.style.backgroundColor='#f1f5f9';" />
+                            </div>
+                            <div class="id-card-face id-card-back">
+                                <img src="back.png" alt="ID Card Back"
+                                    onerror="this.src=''; this.style.backgroundColor='#e2e8f0';" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="id-hint">Hover to flip the card</div>
+                </div>
+
+                <!-- Academic Stats -->
+                <div class="stats-container">
+                    <h3 style="font-size: 1.4rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">Academic
+                        Progress</h3>
+                    <p style="color: #64748b; font-size: 0.95rem;">BSc Software Engineering | Expected Graduation: 2027
+                    </p>
+
+                    <div class="finance-summary-cards">
+                        <div class="finance-card">
+                            <div class="finance-card-title">Current Semester</div>
+                            <div class="finance-card-value">Semester 4</div>
+                        </div>
+                        <div class="finance-card">
+                            <div class="finance-card-title">Earned Credits</div>
+                            <div class="finance-card-value">120 ECTS</div>
+                        </div>
+                        <div class="finance-card"
+                            style="grid-column: span 2; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">
+                            <div>
+                                <div class="finance-card-title" style="color: rgba(255,255,255,0.8);">Overall GPA</div>
+                                <div class="finance-card-value" style="color: white; font-size: 2.5rem;">3.85</div>
+                            </div>
+                            <svg width="48" height="48" fill="none" stroke="rgba(255,255,255,0.3)" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Section: Payment History -->
+            <div class="card finance-section-card">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem;">
+                    <div>
+                        <h3 style="font-size: 1.4rem; font-weight: 700; color: #1e293b; margin-bottom: 0.25rem;">
+                            Financial Overview</h3>
+                        <p style="color: #64748b; font-size: 0.95rem;">Payment history for all semesters</p>
+                    </div>
+                    <button
+                        style="padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: #fff; cursor: pointer; font-weight: 600; color: var(--text-primary); transition: all 0.2s;"
+                        onclick="openPaymentModal()"
+                        style="padding: 0.6rem 1.25rem; border-radius: 8px; border: none; background: #10b981; cursor: pointer; font-weight: 600; color: white; transition: all 0.2s; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);">💳
+                        Make Payment</button>
+                </div>
+
+                <div class="finance-summary-cards" style="margin-bottom: 2rem; grid-template-columns: repeat(3, 1fr);">
+                    <div class="finance-card">
+                        <div class="finance-card-title">Total Tuition Fee (Year)</div>
+                        <div class="finance-card-value">35,000,000 UZS</div>
+                    </div>
+                    <div class="finance-card">
+                        <div class="finance-card-title">Amount Paid</div>
+                        <div class="finance-card-value" style="color: #10b981;">20,000,000 UZS</div>
+                    </div>
+                    <div class="finance-card" style="border-color: #fecaca; background-color: #fef2f2;">
+                        <div class="finance-card-title" style="color: #b91c1c;">Remaining Fee</div>
+                        <div class="finance-card-value due">15,000,000 UZS</div>
+                        <div style="font-size: 0.75rem; color: #b91c1c; margin-top: 0.5rem; font-weight: 600;">Due: 15
+                            May, 2026</div>
+                    </div>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="finance-table">
+                        <thead>
+                            <tr>
+                                <th>Semester</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Payment Method</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Semester 4 (Spring '26)</td>
+                                <td>05 Jan 2026</td>
+                                <td>10,000,000 UZS</td>
+                                <td>Payme App</td>
+                                <td><span class="payment-status payment-paid">PAID</span></td>
+                            </tr>
+                            <tr>
+                                <td>Semester 3 (Fall '25)</td>
+                                <td>28 Aug 2025</td>
+                                <td>10,000,000 UZS</td>
+                                <td>Bank Transfer</td>
+                                <td><span class="payment-status payment-paid">PAID</span></td>
+                            </tr>
+                            <tr>
+                                <td>Semester 2 (Spring '25)</td>
+                                <td>10 Jan 2025</td>
+                                <td>7,500,000 UZS</td>
+                                <td>Click App</td>
+                                <td><span class="payment-status payment-paid">PAID</span></td>
+                            </tr>
+                            <tr>
+                                <td>Semester 1 (Fall '24)</td>
+                                <td>01 Sep 2024</td>
+                                <td>7,500,000 UZS</td>
+                                <td>Visa Card</td>
+                                <td><span class="payment-status payment-paid">PAID</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="payment-modal-overlay" id="payment-modal" onclick="closePaymentModal(event)">
+        <div class="payment-modal">
+            <button class="pm-close" onclick="closePaymentModal()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+            <div class="pm-title">Select Payment Method</div>
+            <div class="pm-subtitle">Securely transfer funds to your university account</div>
+
+            <div class="pm-amount-box">
+                <div class="pm-amount-label">Remaining Fee Due</div>
+                <div class="pm-amount-value">15,000,000 UZS</div>
+            </div>
+
+            <div class="payment-methods">
+                <button class="payment-method-btn">
+                    <img src="payme.png" alt="Payme"
+                        onerror="this.src=''; this.alt='Payme'; this.style.fontSize='1.2rem'; this.style.color='#14b8a6';">
+                    Payme
+                </button>
+                <button class="payment-method-btn">
+                    <img src="click.png" alt="Click"
+                        onerror="this.src=''; this.alt='Click Up'; this.style.fontSize='1.2rem'; this.style.color='#0284c7';">
+                    Click Up
+                </button>
+                <button class="payment-method-btn"
+                    style="grid-column: span 2; flex-direction: row; justify-content: center;">
+                    <svg width="24" height="24" fill="none" stroke="#64748b" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
+                        </path>
+                    </svg>
+                    Bank Card (Visa / Mastercard)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openPaymentModal() {
+            document.getElementById('payment-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePaymentModal(e) {
+            if (e && e.target !== document.getElementById('payment-modal')) return;
+            document.getElementById('payment-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    </script>
+
+</body>
+
+</html>
